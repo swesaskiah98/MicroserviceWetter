@@ -40,19 +40,24 @@ namespace MicroserviceAPIWetter {
             //ToDo insert into if not exists statt delete verwenden, oder flag in App.config?
             string delete = "DELETE FROM wetter;";
             connection.Execute(delete);
-            string insert = "INSERT INTO wetter (datum, temperatur, niederschlag) VALUES (@datum, @temperatur, @niederschlag)";
+            string insert = "INSERT INTO wetter (datum, minTemp, maxTemp, forecast, niederschlag) VALUES (@datum, @minTemp, @maxTemp, @forecast, @niederschlag)";
             DateTime datum;
-            double temperatur;
-            bool niederschlag = false;
+            double minTemp, maxTemp;
+            int forecast;
+            int niederschlag;
             Random r = new Random();
             for (int i = 0; i < 7; i++) {
                 double j = (double) i;
                 datum = DateTime.Today.AddDays(j);
-                temperatur = r.NextDouble() * (30 - 1) + 1;
-                niederschlag = niederschlag==false ? true : false;
+                minTemp = r.NextDouble() * (20 - 1) + 1;
+                maxTemp = minTemp + 10.0;
+                niederschlag = i;
+                forecast = i / 3;
                 connection.Execute(insert, new {
                     datum = datum,
-                    temperatur = temperatur,
+                    minTemp = minTemp,
+                    maxTemp=maxTemp,
+                    forecast=forecast,
                     niederschlag = niederschlag
                 });
             }
@@ -60,7 +65,7 @@ namespace MicroserviceAPIWetter {
         }
 
         private void createTable () {
-            string sql = "CREATE TABLE IF NOT EXISTS wetter (datum timestamp, temperatur numeric(5,2), niederschlag boolean);";
+            string sql = "CREATE TABLE IF NOT EXISTS wetter (datum timestamp, minTemp numeric(5,2), maxTemp numeric(5,2), forecast numeric(5), niederschlag numeric(5,2));";
             connection.Execute(sql);
         }
     }
