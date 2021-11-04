@@ -23,7 +23,7 @@ namespace MicroserviceAPIWetter {
         public List<WetterData> getData () {
             openConnection();
             string getData = "SELECT * FROM wetter;";
-            var data=connection.Query<WetterData>(getData);
+            var data = connection.Query<WetterData>(getData);
             List<WetterData> dataList = data as List<WetterData>;
             return dataList;
         }
@@ -51,13 +51,13 @@ namespace MicroserviceAPIWetter {
                 datum = DateTime.Today.AddDays(j);
                 minTemp = r.NextDouble() * (20 - 1) + 1;
                 maxTemp = minTemp + 10.0;
-                niederschlag = i;
-                forecast = i / 3;
+                niederschlag = (i + 1) * 8;
+                forecast = i % 3;
                 connection.Execute(insert, new {
                     datum = datum,
                     minTemp = minTemp,
-                    maxTemp=maxTemp,
-                    forecast=forecast,
+                    maxTemp = maxTemp,
+                    forecast = forecast,
                     niederschlag = niederschlag
                 });
             }
