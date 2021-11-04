@@ -17,11 +17,11 @@ namespace MicroserviceAPIWetter.Test {
         public void test1 () {
             Assert.AreEqual(1, 1);
         }
-        [Test]
-        public void databaseNotEmpty () {
-            List<WetterData> wetterListe = database.getData();
-            Assert.AreEqual(wetterListe[0].datum, DateTime.Today);
-        }
+        //[Test]
+        //public void databaseNotEmpty () {
+        //    List<WetterData> wetterListe = database.getData();
+        //    Assert.AreEqual(wetterListe[0].datum, DateTime.Today);
+        //}
 
     }
 }
