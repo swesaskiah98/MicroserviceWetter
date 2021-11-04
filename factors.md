@@ -6,3 +6,4 @@
 6. Process: es wird angenommen, dass die Applikation stateless ist, daher werden die Daten immer direkt aus der Datenbank geladen und niemals aus dem Cache der Applikation.
 7. Port binding: die Applikation läuft in einem Docker-Container, aller Verbindungen laufen über einen Port.
 8. Dev/Prod Parity: die Applikation wird mittels GitHub Workflow kontinuierlich deployed und getestet, um Development und Production möglichst ähnlich zu halten. 
+Die Workflows sind unter: https://github.com/swesaskiah98/MicroserviceWetter/actions sichtbar.
