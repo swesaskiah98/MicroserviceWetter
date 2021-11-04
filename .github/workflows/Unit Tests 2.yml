@@ -23,7 +23,7 @@ jobs:
     - name: Run MSBuild
       id: run_msbuild
       working-directory: $
-      run: msbuild .\MicroserviceWetter.sln
+      run: msbuild MicroserviceWetter.sln
 
     - name: Setup VSTest and add to PATH
       uses: darenm/Setup-VSTest@v1
