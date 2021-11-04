@@ -15,34 +15,15 @@ namespace MicroserviceAPIWetter.Controllers {
         [HttpGet]
         public List<WetterData> wetterData () {
             database = new Database();
-            List<WetterData> dataList=database.getData();
+            List<WetterData> dataList=database.getData(database.openConnection());
             return dataList;
         }
-        // GET: api/<WetterController>
-        //[HttpGet]
-        //public IEnumerable<string> Get () {
-        //    return new string[] { "value1", "value2" };
-        //}
-
-        //// GET api/<WetterController>/5
-        //[HttpGet("{id}")]
-        //public string Get (int id) {
-        //    return "value";
-        //}
-
-        //// POST api/<WetterController>
-        //[HttpPost]
-        //public void Post ([FromBody] string value) {
-        //}
-
-        //// PUT api/<WetterController>/5
-        //[HttpPut("{id}")]
-        //public void Put (int id, [FromBody] string value) {
-        //}
-
-        //// DELETE api/<WetterController>/5
-        //[HttpDelete("{id}")]
-        //public void Delete (int id) {
-        //}
+        [HttpGet ("/api/heute")]
+        public WetterData oneDate () {
+            database = new Database();
+            List<WetterData> dataList = database.getData(database.openConnection());
+            WetterData wetterHeute = database.getTodaysData(dataList);
+            return wetterHeute;
+        }
     }
 }

@@ -10,31 +10,38 @@ using MicroserviceAPIWetter.Model;
 
 namespace MicroserviceAPIWetter {
     public class Database {
-        private NpgsqlConnection connection;
+        private static NpgsqlConnection connection;
         private string connectionString;
 
         public void createDatabase () {
             openConnection();
             createTable();
             createDemoData();
-            connection.Close();
+            //connection.Close();
         }
 
-        public List<WetterData> getData () {
-            openConnection();
+        public List<WetterData> getData (NpgsqlConnection connection) {
+            //openConnection();
             string getData = "SELECT * FROM wetter;";
             var data = connection.Query<WetterData>(getData);
             List<WetterData> dataList = data as List<WetterData>;
             return dataList;
         }
 
-        public void openConnection () {
+        internal WetterData getTodaysData (List<WetterData> wetter) {
+            WetterData wetterHeute = new WetterData();
+            wetterHeute = wetter[0];
+            return wetterHeute;
+        }
+
+        public NpgsqlConnection openConnection () {
             connectionString = "Host=" + ConfigurationManager.AppSettings.Get("Host") + "; Port=" + ConfigurationManager.AppSettings.Get("Port") + "; Username="
                 + ConfigurationManager.AppSettings.Get("Username") + "; Password=" + ConfigurationManager.AppSettings.Get("Password") + "; Database=" +
                 ConfigurationManager.AppSettings.Get("Database") + ";";
             connection = new NpgsqlConnection(connectionString);
             
             connection.Open();
+            return connection;
         }
 
         private void createDemoData () {
