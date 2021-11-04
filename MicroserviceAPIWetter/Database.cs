@@ -33,17 +33,16 @@ namespace MicroserviceAPIWetter {
                 + ConfigurationManager.AppSettings.Get("Username") + "; Password=" + ConfigurationManager.AppSettings.Get("Password") + "; Database=" +
                 ConfigurationManager.AppSettings.Get("Database") + ";";
             connection = new NpgsqlConnection(connectionString);
+            
             connection.Open();
         }
 
         private void createDemoData () {
-            //ToDo insert into if not exists statt delete verwenden, oder flag in App.config?
             string delete = "DELETE FROM wetter;";
             connection.Execute(delete);
-            string insert = "INSERT INTO wetter (datum, minTemp, maxTemp, forecast, niederschlag) VALUES (@datum, @minTemp, @maxTemp, @forecast, @niederschlag)";
+            string insert = "INSERT INTO wetter (datum, minTemp, maxTemp, niederschlag) VALUES (@datum, @minTemp, @maxTemp, @niederschlag)";
             DateTime datum;
             double minTemp, maxTemp;
-            int forecast;
             int niederschlag;
             Random r = new Random();
             for (int i = 0; i < 7; i++) {
@@ -52,12 +51,10 @@ namespace MicroserviceAPIWetter {
                 minTemp = r.NextDouble() * (20 - 1) + 1;
                 maxTemp = minTemp + 10.0;
                 niederschlag = (i + 1) * 8;
-                forecast = i % 3;
                 connection.Execute(insert, new {
                     datum = datum,
                     minTemp = minTemp,
                     maxTemp = maxTemp,
-                    forecast = forecast,
                     niederschlag = niederschlag
                 });
             }
@@ -65,7 +62,7 @@ namespace MicroserviceAPIWetter {
         }
 
         private void createTable () {
-            string sql = "CREATE TABLE IF NOT EXISTS wetter (datum timestamp, minTemp numeric(5,2), maxTemp numeric(5,2), forecast numeric(5), niederschlag numeric(5,2));";
+            string sql = "CREATE TABLE IF NOT EXISTS wetter (datum timestamp, minTemp numeric(5,2), maxTemp numeric(5,2), niederschlag numeric(5,2));";
             connection.Execute(sql);
         }
     }
