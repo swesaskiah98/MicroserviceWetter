@@ -8,6 +8,8 @@ jobs:
   run-msbuild-vstest:
     runs-on: windows-latest
     name: Run MSBuild and VSTest
+    env: 
+         ACTIONS_ALLOW_UNSECURE_COMMANDS: true
   
     steps:
     - name: Checkout code
